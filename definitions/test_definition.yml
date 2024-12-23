@@ -1,0 +1,8 @@
+definition:
+  board:
+    mesh_resolution: 0.01
+    square:
+      xrange: [0, 1]
+      yrange: [0, 1]
+  distance_points:
+    - [0.5, 0.5]
