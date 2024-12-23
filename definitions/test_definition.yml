@@ -2,7 +2,13 @@ definition:
   board:
     pixel_resolution: 1000
     square:
-      xrange: [0, 1]
-      yrange: [0, 1]
+      range: [0, 1]
   distance_points:
-    - [0.5, 0.5]
+    - [0, 0]
+    - [0, 0.5]
+    - [0, 1]
+    - [0.5, 1]
+    - [0.5, 0]
+    - [1, 0]
+    - [1, 0.5]
+    - [1, 1]

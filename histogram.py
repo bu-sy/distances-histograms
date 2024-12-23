@@ -3,6 +3,7 @@ from points import Range
 import bisect
 from collections import Counter
 
+
 class Histogram(object):
     def __init__(self, data, steps):
         self.minimum = min(data)
