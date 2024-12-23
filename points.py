@@ -22,10 +22,10 @@ class Point(object):
         return f"POINT({self.x, self.y})"
 
 
-class Line(object):
-    def __init__(self, pointStart, pointEnd):
-        self.startPoint = pointStart
-        self.endPoint = pointEnd
+class Range(object):
+    def __init__(self, valueStart, valueEnd):
+        self.valueStart = valueStart
+        self.valueEnd = valueEnd
 
     def getDivide(self, point_number):
         def getWeightedValue(first, second, percent):
@@ -34,13 +34,7 @@ class Line(object):
         assert point_number >= 2
         for a in range(0, point_number):
             percentage = a / (point_number-1)
-            yield Point(
-                getWeightedValue(self.startPoint.x, self.endPoint.x, percentage),
-                getWeightedValue(self.startPoint.y, self.endPoint.y, percentage)
-            )
-
-    def __str__(self):
-        return f"LINE({self.startPoint}; {self.endPoint})"
+            yield getWeightedValue(self.valueStart, self.valueEnd, percentage)
 
 
 class Grid(object):
@@ -70,13 +64,7 @@ if __name__ == "__main__":
     assert grid.distance_from(Point(2, 2)) == 2
     assert grid.distance_from(Point(0, 1)) == 1
     assert grid.distance_from(Point(0, 1.5)) == 0.5
-    print("TESTS LINE DIVIDE")
-    line = Line(
-        Point(0, 0),
-        Point(10, 20)
-    )
-    pointsOnLine = list(line.getDivide(3))
-    assert pointsOnLine[0].equals(Point(0, 0))
-    assert pointsOnLine[1].equals(Point(5, 10))
-    assert pointsOnLine[2].equals(Point(10, 20))
+    print("TESTS RANGE DIVIDE")
+    myRange = Range(0, 20)
+    assert list(myRange.getDivide(5)) == [0, 5, 10, 15, 20]
     print("TESTS SUCCEEDED")

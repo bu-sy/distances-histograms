@@ -1,4 +1,4 @@
-from points import Point, Line, Grid
+from points import Point, Range, Grid
 import yaml
 
 
@@ -9,14 +9,8 @@ class Loader(object):
         self._pixelResolution = definition['board']['pixel_resolution']
         xrange = definition['board']['square']['xrange']
         yrange = definition['board']['square']['yrange']
-        self._firstSide = Line(
-            Point(xrange[0], yrange[0]),
-            Point(xrange[0], yrange[1])
-        )
-        self._secondSide = Line(
-            Point(xrange[0], yrange[0]),
-            Point(xrange[1], yrange[0])
-        )
+        self._firstRange = Range(xrange[0], xrange[1])
+        self._secondRange = Range(yrange[0], yrange[1])
 
         points = []
         for pointDefinition in definition['distance_points']:
@@ -30,9 +24,9 @@ class Loader(object):
         return self._grid
 
     def getMesh(self):
-        for firstPoint in self._firstSide.getDivide(self._pixelResolution):
-            for secondPoint in self._secondSide.getDivide(self._pixelResolution):
-                yield firstPoint.combine(secondPoint)
+        for firstCoordinate in self._firstRange.getDivide(self._pixelResolution):
+            for secondCoordinate in self._firstRange.getDivide(self._pixelResolution):
+                yield Point(firstCoordinate, secondCoordinate)
 
 
 if __name__ == "__main__":
@@ -51,6 +45,6 @@ if __name__ == "__main__":
     assert loader.getGrid().points[0].equals(Point(0.5, 0.5))
     print("TEST MESH")
     mesh = list(loader.getMesh())
-    assert mesh[8].equals(Point(0.75, 0.25))
+    assert mesh[8].equals(Point(0.25, 0.75))
     assert mesh[12].equals(Point(0.5, 0.5))
     print("TEST SUCCEEDED")
