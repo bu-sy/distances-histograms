@@ -1,6 +1,6 @@
 definition:
   board:
-    mesh_resolution: 0.01
+    pixel_resolution: 1000
     square:
       xrange: [0, 1]
       yrange: [0, 1]

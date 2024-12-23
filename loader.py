@@ -1,20 +1,22 @@
-from points import Point
+from points import Point, Grid
 import yaml
 
 class Loader(object):
     def __init__(self, yamlDefinition):
-        self._startPoints = []
+        self._grid = None
         self._board = None
 
         definition = yaml.safe_load(yamlDefinition)['definition']
+        points = []
         for pointDefinition in definition['distance_points']:
             assert len(pointDefinition) == 2
-            self._startPoints.append(
+            points.append(
                 Point(*pointDefinition)
             )
+        self._grid = Grid(points)
 
-    def getStartPoints(self):
-        return self._startPoints
+    def getGrid(self):
+        return self._grid
 
 
 if __name__ == "__main__":
@@ -29,6 +31,6 @@ if __name__ == "__main__":
       distance_points:
         - [0.5, 0.5]
     ''')
-    assert len(loader.getStartPoints()) == 1
-    assert loader.getStartPoints()[0].equals(Point(0.5, 0.5))
+    assert len(loader.getGrid().points) == 1
+    assert loader.getGrid().points[0].equals(Point(0.5, 0.5))
     print("TEST SUCCEEDED")
