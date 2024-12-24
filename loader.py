@@ -1,4 +1,4 @@
-from points import Point, Range, Grid
+from points import Point, LineSegment, Range, Grid
 import yaml
 import bisect
 
@@ -12,12 +12,20 @@ class Loader(object):
         self.range = list(Range(range[0], range[1]).getDivide(self.pixelResolution))
 
         points = []
-        for pointDefinition in definition['distance_points']:
+        for pointDefinition in definition.get('distance_points', []):
             assert len(pointDefinition) == 2
             points.append(
                 Point(*pointDefinition)
             )
-        self._grid = Grid(points)
+
+        lines = []
+        for lineDefinition in definition.get('distance_lines', []):
+            assert len(lineDefinition) == 4
+            lines.append(
+                LineSegment(Point(lineDefinition[0], lineDefinition[1]), Point(lineDefinition[2], lineDefinition[3]))
+            )
+
+        self._grid = Grid(points=points, lines=lines)
 
     def getGrid(self):
         return self._grid
